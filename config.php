@@ -1,6 +1,5 @@
 <?php
 
-
 $host = 'localhost';        // Database host
 $dbName = 'nmdin6to_nmdnew';  // Database name
 $username = 'root'; // Database username
