@@ -16,6 +16,38 @@ class Main
         $this->conn = $conn;
     }
 
+
+
+    public function insertData($db_column, $name,$contact,$email, $message)
+    { 
+        try {
+            
+            $stmt = $this->conn->prepare("INSERT INTO $db_column (Name, Contact,Email, Message) VALUES ('$name', '$contact','$email', '$message')");
+            $stmt->execute();
+
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+            // Remove HTML tags from the fetched data
+            foreach ($data as &$item) {
+                foreach ($item as $key => &$value) {
+                    $value = strip_tags($value);
+                    $value = str_replace('&nbsp;', '', $value);
+
+                }
+            }
+    
+            $arr = array('data' => $data, 'status' => 200,'message'=>'Email sent successfully.');
+
+            return $arr;
+
+           
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+                
+                
+
     public function getAll($db_column)
     {
         try {
@@ -28,7 +60,6 @@ class Main
                 foreach ($item as $key => &$value) {
                     $value = strip_tags($value);
                     $value = str_replace('&nbsp;', '', $value);
-
                 }
             }
     
